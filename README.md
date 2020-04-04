@@ -15,6 +15,7 @@ PASO 3: Ejecutar los siguientes comandos dentro de la carpeta donde tenemos nues
 PASO 4: Ejecutar el servidor y el cliente desde sendas CMD con permisos de administrador con los siguientes comandos (NOTA: En PASSWORD, debemos poner la contraseña que escogimos al crear nuestro KeyStore:
 
 SERVIDOR: java –Djavax.net.ssl.keyStore=C:\SSLStore –Djavax.net.ssl.keyStorePassword=PASSWORD BYODServer
+
 CLIENTE: java –Djavax.net.ssl.trustStore=C:\SSLStore –Djavax.net.ssl.trustStorePassword=PASSWORD BYODCliente
 
 Con esto ya habremos ejecutado el cliente y el servidor y podremos probar la funcionalidad.
