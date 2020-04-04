@@ -35,6 +35,10 @@ public class BYODCliente {
 
 			// coloca el password en el flujo
 			output.println(password);
+
+
+			final String message = JOptionPane.showInputDialog(null, "Enter your Message:");
+			output.println(message);
 			// envia ambos al servidor
 			output.flush();
 

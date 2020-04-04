@@ -19,31 +19,28 @@ public class BYODServer {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
-	public static void main(String[] args) throws IOException,
-			InterruptedException {
+	public static void main(final String[] args) throws IOException, InterruptedException {
 		// espera conexiones del cliente y comprueba login
-		SSLServerSocketFactory socketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		final SSLServerSocketFactory socketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
-        ServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
-
+		final ServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
 
 		while (true) {
 
 			try {
 				System.err.println("Esperando conexiones..");
 
-				Socket socket = serverSocket.accept();
+				final Socket socket = serverSocket.accept();
 
 				// abre BufferedReader para leer datos del cliente
-				BufferedReader input = new BufferedReader(
-						new InputStreamReader(socket.getInputStream()));
+				final BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				// abre PrintWriter para enviar datos al cliente
-	PrintWriter output = new PrintWriter(new OutputStreamWriter(					socket.getOutputStream()));
-				String userName = input.readLine();
-				String password = input.readLine();
-				if (userName.equals(CORRECT_USER_NAME)
-						&& password.equals(CORRECT_PASSWORD)) {
-					output.println("Bienvenido, " + userName);
+				final PrintWriter output = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+				final String userName = input.readLine();
+				final String password = input.readLine();
+				final String message = input.readLine();
+				if (userName.equals(CORRECT_USER_NAME) && password.equals(CORRECT_PASSWORD)) {
+					output.println("Bienvenido, " + userName + ". Your message was " + message);
 				} else {
 					output.println("Login Fallido.");
 				}
@@ -52,7 +49,7 @@ public class BYODServer {
 				input.close();
 				socket.close();
 
-			} catch (IOException ioException) {
+			} catch (final IOException ioException) {
 				ioException.printStackTrace();
 			}
 		} // end while
