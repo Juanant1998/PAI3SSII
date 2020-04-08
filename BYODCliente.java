@@ -11,6 +11,10 @@ import javax.swing.JOptionPane;
 
 public class BYODCliente {
 
+	private static final String[] protocols = new String[] {"TLSv1.3"};
+    private static final String[] cipher_suites = new String[] {"TLS_AES_128_GCM_SHA256"};
+
+
 	/**
 	 * @param args
 	 * @throws IOException
@@ -18,9 +22,15 @@ public class BYODCliente {
 	public static void main(final String[] args) throws IOException {
 		try {
 
+
 			SSLSocketFactory socketFactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 
 			SSLSocket socket = (SSLSocket) socketFactory.createSocket("localhost", 7070);
+			
+			socket.setEnabledProtocols(protocols);
+			socket.setEnabledCipherSuites(cipher_suites);
+
+
 
 			// crea PrintWriter para enviar login a servidor
 			final PrintWriter output = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));

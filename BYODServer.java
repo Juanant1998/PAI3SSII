@@ -14,6 +14,9 @@ public class BYODServer {
 	private static final String CORRECT_USER_NAME = "Rafael";
 	private static final String CORRECT_PASSWORD = "D23icOp.78";
 
+	
+	
+
 	/**
 	 * @param args
 	 * @throws IOException
@@ -24,6 +27,7 @@ public class BYODServer {
 		final SSLServerSocketFactory socketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
 		final ServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
+
 
 		while (true) {
 
