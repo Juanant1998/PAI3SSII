@@ -15,6 +15,7 @@ public class BYODServer {
 	private static final String CORRECT_PASSWORD = "D23icOp.78";
 
 	private static final String[] protocols = new String[] {"TLSv1.3"};
+    private static final String[] cipher_suites = new String[] {"TLS_AES_128_GCM_SHA256"};
 
 	
 
@@ -29,6 +30,8 @@ public class BYODServer {
 
 		SSLServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
 		serverSocket.setEnabledProtocols(protocols);
+		serverSocket.setEnabledCipherSuites(cipher_suites);
+
 
 		while (true) {
 
