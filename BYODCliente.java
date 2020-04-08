@@ -12,7 +12,6 @@ import javax.swing.JOptionPane;
 public class BYODCliente {
 
 	private static final String[] protocols = new String[] {"TLSv1.3"};
-    private static final String[] cipher_suites = new String[] {"TLS_AES_128_GCM_SHA256"};
 
 
 	/**
@@ -28,7 +27,6 @@ public class BYODCliente {
 			SSLSocket socket = (SSLSocket) socketFactory.createSocket("localhost", 7070);
 			
 			socket.setEnabledProtocols(protocols);
-			socket.setEnabledCipherSuites(cipher_suites);
 
 
 

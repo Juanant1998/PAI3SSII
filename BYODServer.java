@@ -14,7 +14,8 @@ public class BYODServer {
 	private static final String CORRECT_USER_NAME = "Rafael";
 	private static final String CORRECT_PASSWORD = "D23icOp.78";
 
-	
+	private static final String[] protocols = new String[] {"TLSv1.3"};
+
 	
 
 	/**
@@ -24,10 +25,10 @@ public class BYODServer {
 	 */
 	public static void main(final String[] args) throws IOException, InterruptedException {
 		// espera conexiones del cliente y comprueba login
-		final SSLServerSocketFactory socketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+		SSLServerSocketFactory socketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
 
-		final ServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
-
+		SSLServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
+		serverSocket.setEnabledProtocols(protocols);
 
 		while (true) {
 
