@@ -1,18 +1,22 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.*;
+import java.util.Scanner;
+import java.util.TreeMap;
 
 import javax.net.ssl.SSLServerSocketFactory;
 import javax.net.ssl.SSLServerSocket;
 
 
 public class BYODServer {
-
-	private static final String CORRECT_USER_NAME = "Rafael";
-	private static final String CORRECT_PASSWORD = "D23icOp.78";
 
 	private static final String[] protocols = new String[] {"TLSv1.3"};
     private static final String[] cipher_suites = new String[] {"TLS_AES_128_GCM_SHA256"};
@@ -24,6 +28,33 @@ public class BYODServer {
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
+
+	public static TreeMap<String, String> readFromFile(final String ruta) throws FileNotFoundException {
+		Scanner scanner = new Scanner(new FileReader(ruta));
+
+		TreeMap<String, String> map = new TreeMap<String, String>();
+
+		while (scanner.hasNextLine()) {
+
+			String lineToProcess = scanner.nextLine();
+
+			String[] columns = lineToProcess.split(",");
+			map.put(columns[0], columns[1]);
+		}
+
+		scanner.close();
+		return map;
+	}
+
+	public static void saveMessage(final String ruta, final String mensaje, String usuario){
+		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(ruta, true)))) {
+			out.println("\n" + usuario + " - " + mensaje);
+		} catch (IOException e) {
+			System.err.println(e);
+		}
+	}
+
+	
 	public static void main(final String[] args) throws IOException, InterruptedException {
 		// espera conexiones del cliente y comprueba login
 		SSLServerSocketFactory socketFactory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
@@ -31,11 +62,13 @@ public class BYODServer {
 		SSLServerSocket serverSocket = (SSLServerSocket) socketFactory.createServerSocket(7070);
 		serverSocket.setEnabledProtocols(protocols);
 		serverSocket.setEnabledCipherSuites(cipher_suites);
+		TreeMap<String, String> passMap = readFromFile("passMap.txt");
 
 
 		while (true) {
 
 			try {
+
 				System.err.println("Esperando conexiones..");
 
 				final Socket socket = serverSocket.accept();
@@ -47,8 +80,11 @@ public class BYODServer {
 				final String userName = input.readLine();
 				final String password = input.readLine();
 				final String message = input.readLine();
-				if (userName.equals(CORRECT_USER_NAME) && password.equals(CORRECT_PASSWORD)) {
-					output.println("Bienvenido, " + userName + ". Your message was " + message);
+
+				String savedPass = passMap.get(userName);
+				if (password.equals(savedPass)) {
+					output.println("Bienvenido, " + userName + ". Tu mensaje ha sido guardado");
+					saveMessage("storedMessages.txt", message, userName);
 				} else {
 					output.println("Login Fallido.");
 				}
